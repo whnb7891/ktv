@@ -148,5 +148,71 @@ function draw(){
 // 首次提示
 hitZoneEl.addEventListener('touchstart', ()=>{})
 
-// 小提示：用户可在触屏上点击 Hit 区或用空格键来命中。
+// === 商店与收益（模拟购买） ===
+const storeBtn = document.getElementById('storeBtn');
+const dashBtn = document.getElementById('dashBtn');
+const storeModal = document.getElementById('storeModal');
+const dashModal = document.getElementById('dashModal');
+const closeStore = document.getElementById('closeStore');
+const closeDash = document.getElementById('closeDash');
+const totalRevenueEl = document.getElementById('totalRevenue');
+const soldCountEl = document.getElementById('soldCount');
+const activeUsersEl = document.getElementById('activeUsers');
 
+let revenue = parseFloat(localStorage.getItem('ktv_revenue') || '0');
+let soldCount = parseInt(localStorage.getItem('ktv_sold') || '0');
+let premiumUnlocked = JSON.parse(localStorage.getItem('ktv_premium') || 'false');
+
+function openStore(){ storeModal.setAttribute('aria-hidden','false'); }
+function closeStoreFn(){ storeModal.setAttribute('aria-hidden','true'); }
+function openDash(){ dashModal.setAttribute('aria-hidden','false'); updateDash(); }
+function closeDashFn(){ dashModal.setAttribute('aria-hidden','true'); }
+
+storeBtn.addEventListener('click', openStore);
+closeStore.addEventListener('click', closeStoreFn);
+
+dashBtn.addEventListener('click', openDash);
+closeDash.addEventListener('click', closeDashFn);
+
+// 购买按钮
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest && e.target.closest('button.buy');
+  if(btn){
+    const id = btn.getAttribute('data-id');
+    const price = parseFloat(btn.getAttribute('data-price') || '0');
+    simulatePurchase(id, price);
+  }
+});
+
+function simulatePurchase(id, price){
+  // 简单的确认与延迟，模拟真实购买流程
+  if(!confirm(`确认购买 ${id}：$${price.toFixed(2)} ? (模拟)`)) return;
+  // 模拟网络延迟
+  setTimeout(()=>{
+    revenue += price; soldCount += 1;
+    localStorage.setItem('ktv_revenue', revenue.toFixed(2));
+    localStorage.setItem('ktv_sold', String(soldCount));
+    // 解锁逻辑示例：购买任一包解锁 premium
+    premiumUnlocked = true; localStorage.setItem('ktv_premium', JSON.stringify(true));
+    alert('购买成功！已解锁高级内容（模拟）。');
+    updateDash();
+    closeStoreFn();
+  }, 700 + Math.random()*800);
+}
+
+function updateDash(){
+  totalRevenueEl.textContent = revenue.toFixed(2);
+  soldCountEl.textContent = soldCount;
+  // 活跃用户为模拟数据：根据售出数量和一个随机函数估算
+  const active = Math.max(1, Math.round(20 + soldCount * 3 + Math.random()*30));
+  activeUsersEl.textContent = active;
+}
+
+// 服务工作线程注册（PWA 基础）
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/service-worker.js').then(()=>{
+    console.log('ServiceWorker registered');
+  }).catch((err)=>{ console.warn('SW register failed', err); });
+}
+
+// 小提示： premiumUnlocked 可用于解锁更多歌曲/皮肤（示例中未集成到游戏逻辑）。

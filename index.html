@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>KTV Rhythm — 轻量节奏点唱</title>
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -12,6 +13,8 @@
       <h1>KTV Rhythm</h1>
       <div class="info">
         <button id="startBtn">开始游戏</button>
+        <button id="storeBtn" class="ghost">商店</button>
+        <button id="dashBtn" class="ghost">收益</button>
         <div class="score">得分: <span id="score">0</span></div>
       </div>
     </header>
@@ -27,6 +30,50 @@
     <footer>
       <small>轻量示例 — 可扩展为完整 KTV 节奏游戏</small>
     </footer>
+  </div>
+
+  <!-- 商店模态 -->
+  <div id="storeModal" class="modal" aria-hidden="true">
+    <div class="modal-inner">
+      <h2>商店</h2>
+      <p>购买曲包以解锁更多歌曲和皮肤（模拟购买）。</p>
+      <div class="store-items">
+        <div class="store-item">
+          <div class="title">经典曲包</div>
+          <div class="price">$1.99</div>
+          <button data-id="classic" data-price="1.99" class="buy">购买</button>
+        </div>
+        <div class="store-item">
+          <div class="title">热门曲包</div>
+          <div class="price">$2.99</div>
+          <button data-id="hot" data-price="2.99" class="buy">购买</button>
+        </div>
+        <div class="store-item">
+          <div class="title">终极皮肤包</div>
+          <div class="price">$0.99</div>
+          <button data-id="skinpack" data-price="0.99" class="buy">购买</button>
+        </div>
+      </div>
+      <div style="margin-top:12px;text-align:right">
+        <button id="closeStore" class="ghost">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 收益面板 -->
+  <div id="dashModal" class="modal" aria-hidden="true">
+    <div class="modal-inner">
+      <h2>收益与统计</h2>
+      <p>模拟商店收益与下载统计（仅用于演示）。</p>
+      <div class="stats">
+        <div>总收益: $<span id="totalRevenue">0.00</span></div>
+        <div>已售曲包数量: <span id="soldCount">0</span></div>
+        <div>活跃玩家（模拟）: <span id="activeUsers">0</span></div>
+      </div>
+      <div style="margin-top:12px;text-align:right">
+        <button id="closeDash" class="ghost">关闭</button>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
