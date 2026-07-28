@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KTV Rhythm — 轻量节奏点唱</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>KTV Rhythm</h1>
+      <div class="info">
+        <button id="startBtn">开始游戏</button>
+        <div class="score">得分: <span id="score">0</span></div>
+      </div>
+    </header>
+
+    <main>
+      <div id="gameArea">
+        <canvas id="gameCanvas"></canvas>
+        <div id="hitZone">Tap / 按空格</div>
+      </div>
+      <p class="hint">适用于手机、平板与桌面。触摸或按空格键/回车键进行点击。</p>
+    </main>
+
+    <footer>
+      <small>轻量示例 — 可扩展为完整 KTV 节奏游戏</small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
